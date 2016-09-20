@@ -16,9 +16,9 @@
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
         <source-file src="src/android/CustomWebView.java"
-                     target-dir="src/cordova-plugin-custom-web-view/CustomWebView"/>
-        <source-file src="src/android/CustomViewManager.java"
-                     target-dir="src/cordova-plugin-custom-web-view/CustomViewManager"/>
+                     target-dir="src/custom_webview/CustomWebView"/>
+        <source-file src="src/android/CustomViewManagerPlugin.java"
+                     target-dir="src/custom_webview/CustomViewManagerPlugin"/>
 
     </platform>
 </plugin>

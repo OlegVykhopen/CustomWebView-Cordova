@@ -1,3 +1,5 @@
+package custom_webview.CustomViewManagerPlugin;
+
 import android.view.ViewGroup;
 import android.webkit.WebResourceResponse;
 import android.widget.LinearLayout;
@@ -13,7 +15,7 @@ import android.webkit.WebView;
 
 import java.io.ByteArrayInputStream;
 
-public class CustomViewManager extends CordovaPlugin {
+public class CustomViewManagerPlugin extends CordovaPlugin {
 
     // The following files can be open natively by the WebView
     public static String[] whitelist = {

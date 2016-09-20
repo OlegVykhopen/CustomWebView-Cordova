@@ -1,3 +1,5 @@
+package custom_webview.CustomWebView;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.res.AssetManager;
@@ -181,7 +183,7 @@ public class CustomWebView extends WebView{
 
             	Log.e("WebView",String.valueOf(create_cb));
 
-                WizViewManagerPlugin.updateViewList();
+                CustomViewManagerPlugin.updateViewList();
 
                 mDialog.dismiss();
 
@@ -527,7 +529,7 @@ public class CustomWebView extends WebView{
     }
 
     private boolean validateExtension(String candidate) {
-        for (String s: WizViewManagerPlugin.whitelist) {
+        for (String s: CustomViewManagerPlugin.whitelist) {
             // Check extension exists in whitelist
             if (s.equalsIgnoreCase(candidate)) {
                 return true;
@@ -537,7 +539,7 @@ public class CustomWebView extends WebView{
     }
 
     private boolean requiresHelper(String candidate) {
-        for (String s: WizViewManagerPlugin.helperList) {
+        for (String s: CustomViewManagerPlugin.helperList) {
             // Check extension exists in helperList
             if (s.equalsIgnoreCase(candidate)) {
                 return true;
