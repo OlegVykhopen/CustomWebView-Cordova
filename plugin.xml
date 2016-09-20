@@ -1,2 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-custom-web-view" version="0.0.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android"><name>CustomWebView</name><js-module name="CustomWebView" src="www/CustomWebView.js"><clobbers target="cordova.plugins.CustomWebView" /></js-module><platform name="android"><config-file parent="/*" target="res/xml/config.xml"><feature name="CustomWebView"><param name="android-package" value="cordova-plugin-custom-web-view.CustomWebView" /></feature></config-file><config-file parent="/*" target="AndroidManifest.xml"></config-file><source-file src="src/android/CustomWebView.java" target-dir="src/cordova-plugin-custom-web-view/CustomWebView" /></platform></plugin>
+<plugin id="cordova-plugin-custom-web-view" version="0.0.2" xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>CustomWebView</name>
+    <js-module name="CustomViewMessenger" src="www/CustomViewMessenger.js">
+        <clobbers target="cordova.plugins.CustomViewMessenger"/>
+    </js-module>
+    <js-module name="CustomViewManagerPlugin" src="www/CustomViewManager.js">
+        <clobbers target="cordova.plugins.CustomViewManager"/>
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="CustomWebView">
+                <param name="android-package" value="cordova-plugin-custom-web-view.CustomWebView"/>
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <source-file src="src/android/CustomWebView.java"
+                     target-dir="src/cordova-plugin-custom-web-view/CustomWebView"/>
+        <source-file src="src/android/CustomViewManager.java"
+                     target-dir="src/cordova-plugin-custom-web-view/CustomViewManager"/>
+
+    </platform>
+</plugin>
