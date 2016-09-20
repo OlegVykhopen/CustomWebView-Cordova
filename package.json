@@ -1,0 +1,25 @@
+{
+  "name": "CustomWebView",
+  "version": "0.0.2",
+  "description": "",
+  "cordova": {
+    "id": "cordova-plugin-custom-web-view",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlegVykhopen/CustomWebView-Cordova.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Oleg Vykhopen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OlegVykhopen/CustomWebView-Cordova/issues"
+  },
+  "homepage": "https://github.com/OlegVykhopen/CustomWebView-Cordova#readme"
+}
