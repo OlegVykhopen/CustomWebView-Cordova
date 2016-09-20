@@ -1,5 +1,3 @@
-package cordova-plugin-custom-web-view.CustomWebView;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.res.AssetManager;
@@ -74,7 +72,7 @@ public class CustomWebView extends WebView{
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER);
 
-	@SuppressLint("NewApi") public WizWebView(String viewName, JSONObject settings, CordovaInterface cordova, CallbackContext callbackContext, CordovaWebView _webView) {
+	public void WizWebView(String viewName, JSONObject settings, CordovaInterface cordova, CallbackContext callbackContext, CordovaWebView _webView) {
         // Constructor method
         super(cordova.getActivity());
 
@@ -335,6 +333,7 @@ public class CustomWebView extends WebView{
         }
 
         Log.d(TAG, "Create complete");
+        return void;
     } // ************ END CONSTRUCTOR **************
 
     private void pickFile(){

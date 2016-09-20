@@ -1,5 +1,3 @@
-package cordova-plugin-custom-web-view.CustomViewManager;
-
 import android.view.ViewGroup;
 import android.webkit.WebResourceResponse;
 import android.widget.LinearLayout;
