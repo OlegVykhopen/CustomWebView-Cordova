@@ -156,5 +156,5 @@ CustomViewManager.prototype.updateViewList = function (list) {
 };
 
 // instantiate the wizViewManager (always named "mainView" in Cordova)
-window.wizViewManager = new CustomViewManager('mainView');
-module.exports = wizViewManager;
+window.customViewManager = new CustomViewManager('mainView');
+module.exports = customViewManager;
