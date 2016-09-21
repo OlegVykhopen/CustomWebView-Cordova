@@ -72,9 +72,9 @@ public class CustomWebView extends WebView{
 
     static final FrameLayout.LayoutParams COVER_SCREEN_GRAVITY_CENTER =
             new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    Gravity.CENTER);
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+            Gravity.CENTER);
 
     public CustomWebView(String viewName, JSONObject settings, CordovaInterface cordova, CallbackContext callbackContext, CordovaWebView _webView) {
         super(cordova.getActivity());
@@ -88,10 +88,10 @@ public class CustomWebView extends WebView{
         mDialog.show();
 
 
-        Log.d("WizWebView", "[WizWebView] *************************************");
+        /*Log.d("WizWebView", "[WizWebView] *************************************");
         Log.d("WizWebView", "[WizWebView] building - new Wizard View");
         Log.d("WizWebView", "[WizWebView] -> " + viewName);
-        Log.d("WizWebView", "[WizWebView] *************************************");
+        Log.d("WizWebView", "[WizWebView] *************************************");*/
 
         // Hold create callback and execute after page load
         this.create_cb = callbackContext;
@@ -164,13 +164,13 @@ public class CustomWebView extends WebView{
                 mDialog.show();
 
                 if (url.startsWith("mailto:")) {
-                    Log.e("shouldOverrideUrlLoading", "mailto: " + url);
+                    Log.e("shouldOverrideUrlLoadin", "mailto: " + url);
                     MailTo mt = MailTo.parse(url);
                     Intent i = newEmailIntent(mContext, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
                     mContext.startActivity(i);
                     //mView.reload();
                 } else if (url.startsWith("tel:")) {
-                    Log.e("shouldOverrideUrlLoading", "tel: " + url);
+                    Log.e("shouldOverrideUrlLoadin", "tel: " + url);
                     mContext.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(url)));
                 }
 
@@ -178,7 +178,7 @@ public class CustomWebView extends WebView{
             }
 
 
-            @SuppressLint("NewApi") @Override
+            @Override
             public void onPageFinished(WebView wView, String url) {
 
                 Log.e("WebView",String.valueOf(create_cb));
@@ -319,7 +319,7 @@ public class CustomWebView extends WebView{
                 try{
                     callback.invoke(origin, true, false);
                 }catch (Exception e) {
-                    Log.e("GeolocationPermissions failed", "" + e);
+                    Log.e("GeoPermissions fail", "" + e);
                 }
             }
 

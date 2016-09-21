@@ -72,7 +72,7 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
             }
         }
         super.initialize(cordova, webView);
-        /*webView.post(new Runnable() {
+/*        webView.getView().post(new Runnable() {
             @Override
             public void run() {
                 webView.getSettings().setDomStorageEnabled(true);
