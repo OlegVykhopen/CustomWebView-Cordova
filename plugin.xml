@@ -11,10 +11,10 @@
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="CustomWebView">
-                <param name="android-package" value="cordova-plugin-custom-web-view.CustomWebView"/>
+                <param name="android-package" value="custom_webview.CustomWebView"/>
             </feature>
             <feature name="CustomViewManagerPlugin">
-                <param name="android-package" value="cordova-plugin-custom-web-view.CustomViewManagerPlugin"/>
+                <param name="android-package" value="custom_webview.CustomViewManagerPlugin"/>
             </feature>
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
