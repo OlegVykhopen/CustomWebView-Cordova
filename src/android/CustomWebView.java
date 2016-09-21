@@ -52,6 +52,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 
+import custom_webview.CustomViewManagerPlugin.CustomViewManagerPlugin;
+
 @SuppressLint("SetJavaScriptEnabled")
 public class CustomWebView extends WebView{
 
@@ -74,10 +76,8 @@ public class CustomWebView extends WebView{
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     Gravity.CENTER);
 
-	public void WizWebView(String viewName, JSONObject settings, CordovaInterface cordova, CallbackContext callbackContext, CordovaWebView _webView) {
-        // Constructor method
+    public CustomWebView(String viewName, JSONObject settings, CordovaInterface cordova, CallbackContext callbackContext, CordovaWebView _webView) {
         super(cordova.getActivity());
-
         mContext = cordova.getActivity();
         mCordova = cordova;
         mCordovaPlugin = new CordovaPlugin();
@@ -113,10 +113,10 @@ public class CustomWebView extends WebView{
         webSettings.setGeolocationEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setGeolocationDatabasePath( ((ContextWrapper) cordova).getFilesDir().getPath() );
-    	webSettings.setPluginState(PluginState.ON);
-    	webSettings.setAllowContentAccess(true);
-    	webSettings.setAllowFileAccess(true);
-    	webSettings.setDefaultTextEncodingName("utf-8");
+        webSettings.setPluginState(PluginState.ON);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setDefaultTextEncodingName("utf-8");
 
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
             Level16Apis.enableUniversalAccess(webSettings);
@@ -148,12 +148,12 @@ public class CustomWebView extends WebView{
         if (Build.VERSION.SDK_INT >= 11) this.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
 
         this.setDownloadListener(new DownloadListener() {
-			@Override
-			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-				//Log.e("url", url);
-				mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-			}
-		});
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                //Log.e("url", url);
+                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            }
+        });
 
         // Override url loading on WebViewClient
         this.setWebViewClient(new WebViewClient () {
@@ -164,15 +164,15 @@ public class CustomWebView extends WebView{
                 mDialog.show();
 
                 if (url.startsWith("mailto:")) {
-					Log.e("shouldOverrideUrlLoading", "mailto: " + url);
-					MailTo mt = MailTo.parse(url);
-					Intent i = newEmailIntent(mContext, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
-					mContext.startActivity(i);
-					mView.reload();
-				} else if (url.startsWith("tel:")) {
-					Log.e("shouldOverrideUrlLoading", "tel: " + url);
-					mContext.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(url)));
-				}
+                    Log.e("shouldOverrideUrlLoading", "mailto: " + url);
+                    MailTo mt = MailTo.parse(url);
+                    Intent i = newEmailIntent(mContext, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
+                    mContext.startActivity(i);
+                    //mView.reload();
+                } else if (url.startsWith("tel:")) {
+                    Log.e("shouldOverrideUrlLoading", "tel: " + url);
+                    mContext.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(url)));
+                }
 
                 return false;
             }
@@ -181,7 +181,7 @@ public class CustomWebView extends WebView{
             @SuppressLint("NewApi") @Override
             public void onPageFinished(WebView wView, String url) {
 
-            	Log.e("WebView",String.valueOf(create_cb));
+                Log.e("WebView",String.valueOf(create_cb));
 
                 CustomViewManagerPlugin.updateViewList();
 
@@ -193,12 +193,12 @@ public class CustomWebView extends WebView{
                     // Callback used, don't call it again.
                     create_cb = null;
                 }else{
-                	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                         // Only for Kitkat and newer versions
-                		mView.evaluateJavascript("webViewFinishLoad('" + url + "','" + wView.getTitle() + "');", null);
-                    } else {
-                    	mView.loadUrl("javascript:webViewFinishLoad('" + url + "','" + wView.getTitle() + "');");
-                    }
+                        mView.evaluateJavascript("webViewFinishLoad('" + url + "','" + wView.getTitle() + "');", null);
+                    } else {*/
+                        mView.loadUrl("javascript:webViewFinishLoad('" + url + "','" + wView.getTitle() + "');");
+                    //}
                 }
 
                 if (load_cb != null) {
@@ -210,7 +210,7 @@ public class CustomWebView extends WebView{
             }
 
             public void onReceivedError(WebView view, int errorCod, String description, String failingUrl) {
-            	mDialog.dismiss();
+                mDialog.dismiss();
                 Log.e(TAG, "Error: Cannot load " + failingUrl + " \n Reason: " + description);
                 if (create_cb != null) {
                     create_cb.error(description);
@@ -221,10 +221,10 @@ public class CustomWebView extends WebView{
         });
         this.setWebChromeClient(new WebChromeClient() {
 
-        	// openFileChooser for Android 3.0+
+            // openFileChooser for Android 3.0+
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType){
 
-            	Log.e("openFileChooser", "1");
+                Log.e("openFileChooser", "1");
 
                 // Update message
                 mUploadMessage = uploadMsg;
@@ -234,9 +234,9 @@ public class CustomWebView extends WebView{
                     // Create AndroidExampleFolder at sdcard
 
                     File imageStorageDir = new File(
-                                           Environment.getExternalStoragePublicDirectory(
-                                           Environment.DIRECTORY_PICTURES)
-                                           , "AndroidExampleFolder");
+                            Environment.getExternalStoragePublicDirectory(
+                                    Environment.DIRECTORY_PICTURES)
+                            , "AndroidExampleFolder");
 
                     if (!imageStorageDir.exists()) {
                         // Create AndroidExampleFolder at sdcard
@@ -245,7 +245,7 @@ public class CustomWebView extends WebView{
 
                     // Create camera captured image file path and name
                     File file = new File(
-                                    imageStorageDir + File.separator + "IMG_"
+                            imageStorageDir + File.separator + "IMG_"
                                     + String.valueOf(System.currentTimeMillis())
                                     + ".jpg");
 
@@ -253,7 +253,7 @@ public class CustomWebView extends WebView{
 
                     // Camera capture image intent
                     final Intent captureIntent = new Intent(
-                                                  android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
                     captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
 
@@ -266,16 +266,16 @@ public class CustomWebView extends WebView{
 
                     // Set camera intent to file chooser
                     chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS
-                                           , new Parcelable[] { captureIntent });
+                            , new Parcelable[] { captureIntent });
 
                     // On select image call onActivityResult method of activity
                     mCordova.getActivity().startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
 
-                  }
-                 catch(Exception e){
-                     Toast.makeText(((ContextWrapper) mContext).getBaseContext(), "Exception:"+e,
-                                Toast.LENGTH_LONG).show();
-                 }
+                }
+                catch(Exception e){
+                    Toast.makeText(((ContextWrapper) mContext).getBaseContext(), "Exception:"+e,
+                            Toast.LENGTH_LONG).show();
+                }
 
             }
 
@@ -283,15 +283,15 @@ public class CustomWebView extends WebView{
 
             // openFileChooser for Android < 3.0
             @SuppressWarnings("unused")
-			public void openFileChooser(ValueCallback<Uri> uploadMsg){
+            public void openFileChooser(ValueCallback<Uri> uploadMsg){
                 openFileChooser(uploadMsg, "");
             }
 
             //openFileChooser for other Android versions
             @SuppressWarnings("unused")
-			public void openFileChooser(ValueCallback<Uri> uploadMsg,
-                                       String acceptType,
-                                       String capture) {
+            public void openFileChooser(ValueCallback<Uri> uploadMsg,
+                                        String acceptType,
+                                        String capture) {
 
                 openFileChooser(uploadMsg, acceptType);
             }
@@ -313,17 +313,17 @@ public class CustomWebView extends WebView{
 
             }
 
-        	@Override
-        	public void onGeolocationPermissionsShowPrompt(String origin, android.webkit.GeolocationPermissions.Callback callback) {
-        		super.onGeolocationPermissionsShowPrompt(origin, callback);
-        		try{
-        			callback.invoke(origin, true, false);
-        		}catch (Exception e) {
+            @Override
+            public void onGeolocationPermissionsShowPrompt(String origin, android.webkit.GeolocationPermissions.Callback callback) {
+                super.onGeolocationPermissionsShowPrompt(origin, callback);
+                try{
+                    callback.invoke(origin, true, false);
+                }catch (Exception e) {
                     Log.e("GeolocationPermissions failed", "" + e);
                 }
-        	}
+            }
 
-		});
+        });
 
 
         // Analyse settings object
@@ -335,8 +335,7 @@ public class CustomWebView extends WebView{
         }
 
         Log.d(TAG, "Create complete");
-        return void;
-    } // ************ END CONSTRUCTOR **************
+    }
 
     private void pickFile(){
     	Intent chooserIntent = new Intent(Intent.ACTION_GET_CONTENT);
