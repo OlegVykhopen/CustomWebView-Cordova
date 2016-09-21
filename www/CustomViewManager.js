@@ -1,4 +1,3 @@
-cordova.define("cordova-plugin-custom-web-view.CustomViewManager", function(require, exports, module) {
     /*
      * Custom plugin for native views
      *
@@ -159,4 +158,4 @@ cordova.define("cordova-plugin-custom-web-view.CustomViewManager", function(requ
 // instantiate the CustomViewManager (always named "mainView" in Cordova)
     window.CustomViewManager = new CustomViewManager();
     module.exports = CustomViewManager;
-});
+
