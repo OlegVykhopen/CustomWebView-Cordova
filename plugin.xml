@@ -10,16 +10,18 @@
     </js-module>
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="CustomWebView">
+                <param name="android-package" value="custom_webview.CustomWebView"/>
+            </feature>
             <feature name="CustomViewManagerPlugin">
-                <param name="android-package" value="CustomViewManagerPlugin"/>
+                <param name="android-package" value="custom_webview.CustomViewManagerPlugin"/>
             </feature>
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
-
-        <source-file src="src/android/CustomViewManagerPlugin.java"
-                     target-dir="src/custom_webview"/>
         <source-file src="src/android/CustomWebView.java"
-                     target-dir="src/custom_webview"/>
+                     target-dir="src/custom_webview/CustomWebView"/>
+        <source-file src="src/android/CustomViewManagerPlugin.java"
+                     target-dir="src/custom_webview/CustomViewManagerPlugin"/>
 
     </platform>
 </plugin>
