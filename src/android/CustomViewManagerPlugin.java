@@ -1,4 +1,4 @@
-package custom_webview.CustomViewManagerPlugin;
+package CustomWebView;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +16,6 @@ import android.util.Log;
 
 
 import java.io.ByteArrayInputStream;
-
-import custom_webview.CustomWebView.CustomWebView;
 
 public class CustomViewManagerPlugin extends CordovaPlugin {
 
@@ -38,7 +36,7 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
         ".h", ".m", ".c", ".cc", ".cpp",
         ".webm", ".mpeg4", ".3gpp", ".mov", ".avi", ".mpegps", ".wmv", ".flv"
     };
-    private String TAG = "WizViewManagerPlugin";
+    private String TAG = "CustomViewManagerPlugin";
 
     static JSONObject viewList = new JSONObject();
     static CordovaInterface _cordova;
@@ -54,18 +52,18 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
             // Cordova view is not in the viewList so add it.
             try {
                 viewList.put("mainView", webView);
-               /* // To avoid "method was called on thread 'JavaBridge'" error we use a runnable
-                webView.post(new Runnable() {
+                // To avoid "method was called on thread 'JavaBridge'" error we use a runnable
+                webView.getView().post(new Runnable() {
                     @Override
-                    public void run() {*/
+                    public void run() {
                         /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                             // Only for Kitkat and newer versions
                             webView.evaluateJavascript("window.name = 'mainView';", null);
                         } else {*/
                         webView.loadUrl("javascript:window.name = 'mainView';");
                         //}
-                    //}
-                //});
+                    }
+                });
             } catch (JSONException e) {
                 // Error handle (this should never happen!)
                 Log.e(TAG, "Critical error. Failed to retrieve Cordova's view");
@@ -75,7 +73,7 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
 /*        webView.getView().post(new Runnable() {
             @Override
             public void run() {
-                webView.getSettings().setDomStorageEnabled(true);
+                webView.getView().getSettings().setDomStorageEnabled(true);
                 webView.getSettings().setLoadWithOverviewMode(true);
                 webView.getSettings().setUseWideViewPort(true);
             }
@@ -125,7 +123,7 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
 //                        // Only for Kitkat and newer versions
 //                        webView.evaluateJavascript("wizViewMessenger.__triggerMessageEvent(\"" + msgData[0] + "\", \"" + msgData[1] + "\", \"" + data2send + "\", \"" + msgData[3] + "\");", null);
 //                    } else {
-                        targetView.loadUrl("javascript:wizViewMessenger.__triggerMessageEvent(\"" + msgData[0] + "\", \"" + msgData[1] + "\", \"" + data2send + "\", \"" + msgData[3] + "\");");
+                        targetView.loadUrl("javascript:CustomViewMessenger.__triggerMessageEvent(\"" + msgData[0] + "\", \"" + msgData[1] + "\", \"" + data2send + "\", \"" + msgData[3] + "\");");
 //                    }
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -222,7 +220,7 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
                             // Put our new View into viewList
                             try {
                                 viewList.put(viewName, wizWebView);
-                                updateViewList();
+                                CustomViewManagerPlugin.updateViewList();
                             } catch (JSONException e) {
                                 // Error handle
                                 e.printStackTrace();
@@ -271,7 +269,7 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
                         });
 
                 viewList.remove(viewName);
-                updateViewList();
+                CustomViewManagerPlugin.updateViewList();
 
                 // Remove is running on a different thread, but for now assume view was removed
                 callbackContext.success();
@@ -699,9 +697,9 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
             // Build JS execution String form all view names in viewList
             targetView = (CordovaWebView) viewList.get("mainView");
             JSONArray viewListNameArray = viewList.names();
-            jsString += "window.wizViewManager.updateViewList(" + viewListNameArray.toString() + "); ";
-            Log.d("wizViewManager", "Execute JS: " + jsString);
-            Log.d("wizViewManager", "Updated view list");
+            jsString += "window.CustomViewManager.updateViewList(" + viewListNameArray.toString() + "); ";
+            Log.d("CustomViewManager", "Execute JS: " + jsString);
+            Log.d("CustomViewManager", "Updated view list");
         } catch (JSONException ex) {
             return;
         }
@@ -730,8 +728,8 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
 
     public static void setLayout(CordovaWebView webView, JSONObject settings) {
 
-        Log.d("WizViewManager", "Setting up mainView layout...");
-        Log.d("WizViewManager", webView.toString());
+        Log.d("CustomViewManager", "Setting up mainView layout...");
+        Log.d("CustomViewManager", webView.toString());
 
         String url;
         // Size
@@ -826,13 +824,13 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
         webView.setLayoutParams(marginParams);
          */
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) webView.getView().getLayoutParams();
-        Log.d("WizViewManager", layoutParams.toString());
+        Log.d("CustomViewManager", layoutParams.toString());
         layoutParams.setMargins(_left, _top, _right, _bottom);
         layoutParams.height = _height;
         layoutParams.width = _width;
 
         webView.getView().setLayoutParams(layoutParams);
 
-        Log.d("WizViewManager", "new layout -> width: " + layoutParams.width + " - height: " + layoutParams.height + " - margins: " + layoutParams.leftMargin + "," + layoutParams.topMargin + "," + layoutParams.rightMargin + "," + layoutParams.bottomMargin);
+        Log.d("CustomViewManager", "new layout -> width: " + layoutParams.width + " - height: " + layoutParams.height + " - margins: " + layoutParams.leftMargin + "," + layoutParams.topMargin + "," + layoutParams.rightMargin + "," + layoutParams.bottomMargin);
     }
 }

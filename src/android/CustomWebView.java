@@ -1,4 +1,4 @@
-package custom_webview.CustomWebView;
+package CustomWebView;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -52,12 +52,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 
-import custom_webview.CustomViewManagerPlugin.CustomViewManagerPlugin;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class CustomWebView extends WebView{
 
-    private String TAG = "WizWebView";
+    private String TAG = "CustomWebView";
     private CallbackContext create_cb;
     private CallbackContext load_cb;
     private Context mContext;
@@ -112,7 +111,7 @@ public class CustomWebView extends WebView{
         webSettings.setDatabaseEnabled(true);
         webSettings.setGeolocationEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        webSettings.setGeolocationDatabasePath( ((ContextWrapper) cordova).getFilesDir().getPath() );
+        //webSettings.setGeolocationDatabasePath( ((ContextWrapper) cordova).getFilesDir().getPath() );
         webSettings.setPluginState(PluginState.ON);
         webSettings.setAllowContentAccess(true);
         webSettings.setAllowFileAccess(true);
@@ -131,7 +130,7 @@ public class CustomWebView extends WebView{
             this.loadUrl("javascript:window.name = '" + viewName + "';");
         }
 
-        ViewGroup frame = (ViewGroup) ((Activity) cordova).findViewById(android.R.id.content);
+        ViewGroup frame = (ViewGroup) cordova.getActivity().findViewById(android.R.id.content);
 
         // Creating a new RelativeLayout fill its parent by default
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
@@ -142,9 +141,8 @@ public class CustomWebView extends WebView{
         frame.addView(this, rlp);
 
         //this.setPadding(999, 0, 0, 0);
-
         // Set a transparent background
-        this.setBackgroundColor(Color.WHITE);
+        this.setBackgroundColor(Color.TRANSPARENT);
         if (Build.VERSION.SDK_INT >= 11) this.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
 
         this.setDownloadListener(new DownloadListener() {
