@@ -11,15 +11,15 @@
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="CustomViewManagerPlugin">
-                <param name="android-package" value="custom_webview.CustomViewManagerPlugin"/>
+                <param name="android-package" value="CustomWebView.CustomViewManagerPlugin"/>
             </feature>
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
 
         <source-file src="src/android/CustomViewManagerPlugin.java"
-                     target-dir="src/custom_webview"/>
+                     target-dir="src/CustomWebView"/>
         <source-file src="src/android/CustomWebView.java"
-                     target-dir="src/custom_webview"/>
+                     target-dir="src/CustomWebView"/>
 
     </platform>
 </plugin>
