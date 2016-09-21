@@ -1,20 +1,17 @@
-/* WizViewMessenger for cordova - Handle Cross Native Window Comms
- *
- * @author Ally Ogilvie
- * @copyright Wizcorp Inc. [ Incorporated Wizards ] 2013
- * @file - wizViewMessenger.js
- * @about - JavaScript for wizViewManager communications
- *
- *
- */
+/*
+* Custom plugin for native views
+*
+* @ created by Oleg Vykhopen
+*
+* */
 
-var WizViewMessenger = function () {};
+var CustomViewMessenger = function () {};
 
-WizViewMessenger.prototype.postMessage = function (message, targetView) {
+CustomViewMessenger.prototype.postMessage = function (message, targetView) {
     // for more information on the MessageEvent API, see:
     // http://www.w3.org/TR/2008/WD-html5-20080610/comms.HTMLElement
 
-    // wizPostMessage://origin?target?data
+    // customPostMessage://origin?target?data
 
     // Check message type
     var type;
@@ -36,18 +33,18 @@ WizViewMessenger.prototype.postMessage = function (message, targetView) {
         type = "Object";
         message = JSON.stringify(message);
     } else {
-        console.error("WizViewMessenger posted unknown type!");
+        console.error("CustomViewMessenger posted unknown type!");
         return;
     }
 
     var iframe = document.createElement('IFRAME');
-    iframe.setAttribute('src', 'wizPostMessage://'+ window.encodeURIComponent(window.name) + '?' + window.encodeURIComponent(targetView) + '?' + window.encodeURIComponent(message) + '?' + type );
+    iframe.setAttribute('src', 'customPostMessage://'+ window.encodeURIComponent(window.name) + '?' + window.encodeURIComponent(targetView) + '?' + window.encodeURIComponent(message) + '?' + type );
     document.documentElement.appendChild(iframe);
     iframe.parentNode.removeChild(iframe);
     iframe = null;
 };
 
-WizViewMessenger.prototype.__triggerMessageEvent = function (origin, target, data, type) {
+CustomViewMessenger.prototype.__triggerMessageEvent = function (origin, target, data, type) {
     // Trigger message event
     origin = decodeURIComponent(origin);
     target = decodeURIComponent(target);
@@ -81,5 +78,5 @@ WizViewMessenger.prototype.__triggerMessageEvent = function (origin, target, dat
     dispatchEvent(event);
 };
 
-window.wizViewMessenger = new WizViewMessenger();
-module.exports = wizViewMessenger;
+window.customViewMessenger = new CustomViewMessenger();
+module.exports = customViewMessenger;

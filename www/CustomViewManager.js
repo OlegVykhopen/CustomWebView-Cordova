@@ -1,12 +1,9 @@
-/* WizViewManager for cordova - Handle Views create/remove/show/hide etc.
+/*
+ * Custom plugin for native views
  *
- * @author Ally Ogilvie  
- * @copyright Wizcorp Inc. [ Incorporated Wizards ] 2013
- * @file - wizViewManager.js
- * @about - JavaScript cordova bridge for view management
+ * @ created by Oleg Vykhopen
  *
- *
- */
+ * */
 
 var exec = require("cordova/exec");
 
@@ -19,7 +16,7 @@ function propsToString(obj) {
     }
 }
 
-var WizViewManager = function (name) {
+var CustomViewManager = function (name) {
     this.name = name;
     this.views = {};
 };
@@ -30,36 +27,36 @@ var View = function (name) {
 }
 
 View.prototype.postMessage = function (message) {
-    cordova.exec(null, null, "WizViewManagerPlugin", "postMessage", [message, this.name]);
+    cordova.exec(null, null, "CustomViewManagerPlugin", "postMessage", [message, this.name]);
 };
 
 View.create = function (name, options, success, failure) {
     propsToString(options);
-    cordova.exec(success, failure, "WizViewManagerPlugin", "createView", [name, options]);
+    cordova.exec(success, failure, "CustomViewManagerPlugin", "createView", [name, options]);
 };
 
 View.prototype.remove = function (success, failure) {
-    cordova.exec(success, failure, "WizViewManagerPlugin", "removeView", [this.name]);
+    cordova.exec(success, failure, "CustomViewManagerPlugin", "removeView", [this.name]);
 };
 
 View.prototype.show = function (animOptions, success, failure) {
-    cordova.exec(success, failure, "WizViewManagerPlugin", "showView", [this.name, animOptions]);
+    cordova.exec(success, failure, "CustomViewManagerPlugin", "showView", [this.name, animOptions]);
 };
 
 View.prototype.hide = function (animOptions, success, failure) {
-    cordova.exec(success, failure, "WizViewManagerPlugin", "hideView", [this.name, animOptions]);
+    cordova.exec(success, failure, "CustomViewManagerPlugin", "hideView", [this.name, animOptions]);
 };
 
 View.prototype.load = function (source, success, failure) {
-    cordova.exec(success, failure, "WizViewManagerPlugin", "load", [this.name, { src: source }]);
+    cordova.exec(success, failure, "CustomViewManagerPlugin", "load", [this.name, { src: source }]);
 };
 
 View.prototype.setLayout = function (options, success, failure) {
     propsToString(options);
-    cordova.exec(success, failure, "WizViewManagerPlugin", "setLayout", [this.name, options]);
+    cordova.exec(success, failure, "CustomViewManagerPlugin", "setLayout", [this.name, options]);
 };
 
-WizViewManager.prototype.receivedMessage = function (message, senderName) {
+CustomViewManager.prototype.receivedMessage = function (message, senderName) {
     // for more information on the MessageEvent API, see:
     // http://www.w3.org/TR/2008/WD-html5-20080610/comms.html
 
@@ -71,7 +68,7 @@ WizViewManager.prototype.receivedMessage = function (message, senderName) {
 };
 
 
-WizViewManager.prototype.throwError = function (cb, error) {
+CustomViewManager.prototype.throwError = function (cb, error) {
     if (cb) {
         cb(error);
     } else {
@@ -79,7 +76,7 @@ WizViewManager.prototype.throwError = function (cb, error) {
     }
 };
 
-WizViewManager.prototype.create = function (name, options, success, failure) {
+CustomViewManager.prototype.create = function (name, options, success, failure) {
     if (!View.create) {
         return this.throwError(failure, new Error('The create API is not implemented, while trying to create: ' + name));
     }
@@ -98,7 +95,7 @@ WizViewManager.prototype.create = function (name, options, success, failure) {
     View.create(name, options, successWrapper, failure);
 };
 
-WizViewManager.prototype.show = function (name, animOptions, success, failure) {
+CustomViewManager.prototype.show = function (name, animOptions, success, failure) {
     if (!this.views[name]) {
         return this.throwError(failure, new Error('Show Error with view name: ' + name + '. View does not exist'));
     }
@@ -106,7 +103,7 @@ WizViewManager.prototype.show = function (name, animOptions, success, failure) {
     this.views[name].show(animOptions, success, failure);
 };
 
-WizViewManager.prototype.hide = function (name, animOptions, success, failure) {
+CustomViewManager.prototype.hide = function (name, animOptions, success, failure) {
     if (!this.views[name]) {
         return this.throwError(failure, new Error('Hide Error with view name: ' + name + '. View does not exist'));
     }
@@ -114,7 +111,7 @@ WizViewManager.prototype.hide = function (name, animOptions, success, failure) {
     this.views[name].hide(animOptions, success, failure);
 };
 
-WizViewManager.prototype.remove = function (name, success, failure) {
+CustomViewManager.prototype.remove = function (name, success, failure) {
     if (!this.views[name]) {
         return this.throwError(failure, new Error('Hide Error with view name: ' + name + '. View does not exist'));
     }
@@ -122,7 +119,7 @@ WizViewManager.prototype.remove = function (name, success, failure) {
     this.views[name].remove(success, failure);
 };
 
-WizViewManager.prototype.setLayout = function (name, animOptions, success, failure) {
+CustomViewManager.prototype.setLayout = function (name, animOptions, success, failure) {
     if (!this.views[name]) {
         return this.throwError(failure, new Error('Set Layout Error with view name: ' + name + '. View does not exist'));
     }
@@ -130,7 +127,7 @@ WizViewManager.prototype.setLayout = function (name, animOptions, success, failu
     this.views[name].setLayout(animOptions, success, failure);
 };
 
-WizViewManager.prototype.load = function (name, source, success, failure) {
+CustomViewManager.prototype.load = function (name, source, success, failure) {
     if (!this.views[name]) {
         return this.throwError(failure, new Error('Load Error with view name: ' + name + '. View does not exist'));
     }
@@ -138,7 +135,7 @@ WizViewManager.prototype.load = function (name, source, success, failure) {
     this.views[name].load(source, success, failure);
 };
 
-WizViewManager.prototype.updateViewList = function (list) {
+CustomViewManager.prototype.updateViewList = function (list) {
 
     // check for removed views
     for (var name in this.views) {
@@ -159,5 +156,5 @@ WizViewManager.prototype.updateViewList = function (list) {
 };
 
 // instantiate the wizViewManager (always named "mainView" in Cordova)
-window.wizViewManager = new WizViewManager('mainView');
+window.wizViewManager = new CustomViewManager('mainView');
 module.exports = wizViewManager;
