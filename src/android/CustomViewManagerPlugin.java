@@ -52,18 +52,6 @@ public class CustomViewManagerPlugin extends CordovaPlugin {
             // Cordova view is not in the viewList so add it.
             try {
                 viewList.put("mainView", webView);
-                // To avoid "method was called on thread 'JavaBridge'" error we use a runnable
-                webView.getView().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                            // Only for Kitkat and newer versions
-                            webView.evaluateJavascript("window.name = 'mainView';", null);
-                        } else {*/
-                        webView.loadUrl("javascript:window.name = 'mainView';");
-                        //}
-                    }
-                });
             } catch (JSONException e) {
                 // Error handle (this should never happen!)
                 Log.e(TAG, "Critical error. Failed to retrieve Cordova's view");

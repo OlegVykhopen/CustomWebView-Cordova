@@ -75,7 +75,7 @@ public class CustomWebView extends WebView{
                 ViewGroup.LayoutParams.MATCH_PARENT,
             Gravity.CENTER);
 
-    public CustomWebView(String viewName, JSONObject settings, CordovaInterface cordova, CallbackContext callbackContext, CordovaWebView _webView) {
+    public CustomWebView(String viewName, JSONObject settings, final CordovaInterface cordova, CallbackContext callbackContext, CordovaWebView _webView) {
         super(cordova.getActivity());
         mContext = cordova.getActivity();
         mCordova = cordova;
@@ -85,7 +85,6 @@ public class CustomWebView extends WebView{
         mDialog = new ProgressDialog(mContext);
         mDialog.setMessage("Loading...");
         mDialog.show();
-
 
         /*Log.d("WizWebView", "[WizWebView] *************************************");
         Log.d("WizWebView", "[WizWebView] building - new Wizard View");
@@ -116,6 +115,9 @@ public class CustomWebView extends WebView{
         webSettings.setAllowContentAccess(true);
         webSettings.setAllowFileAccess(true);
         webSettings.setDefaultTextEncodingName("utf-8");
+
+        this.setClickable(true);
+        this.setEnabled(true);
 
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
             Level16Apis.enableUniversalAccess(webSettings);
@@ -417,6 +419,7 @@ public class CustomWebView extends WebView{
 
         FrameLayout.LayoutParams newLayoutParams = new FrameLayout.LayoutParams(-1, -1);
         //newLayoutParams.setMargins(_y, _x, i - (_y + _width), j - (_x + _height));
+        Log.e("LayoutParams", "x: " + String.valueOf(_x) + " y: " + String.valueOf(_y) + " width: " + String.valueOf(_width) + " height: " + String.valueOf(_height));
         newLayoutParams.setMargins(_x, _y, 0, 0);
         //newLayoutParams.setMargins(_left, _top, _right, _bottom);
         newLayoutParams.height = _height;
